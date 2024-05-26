@@ -21,17 +21,14 @@ class PID(object):
         try:
             gms = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
             state = gms(model_name="mobile_base")
-            
             return state
-
         except rospy.ServiceException as e:
             print(f"Service call failed: {e}") 
 
     def get_rotation (self, state):           
-        # global roll, pitch, yaw
         orientation_q = state.pose.orientation 
-        orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w] #stores quartenion in a list 
-        (roll, pitch, yaw) = euler_from_quaternion (orientation_list)
+        orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
+        (_, _, yaw) = euler_from_quaternion(orientation_list)
         return yaw
  	
     def compute_pid(self, error):
@@ -40,7 +37,7 @@ class PID(object):
         self.integral_error += self.error
         self.derivative_error = self.error - self.prev_error
         self.prev_error = self.error
-        
+
         self.output = self.kp * self.error + self.ki * self.integral_error + self.kd * self.derivative_error
 
         return self.output
