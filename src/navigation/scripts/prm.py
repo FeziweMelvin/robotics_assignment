@@ -7,7 +7,7 @@ import imp
 
 import numpy as np
 
-from pid import PID
+from navigation.scripts.pid import PID
 import rospy
 
 
@@ -216,12 +216,9 @@ def main():
     # GX GY CAN BE ANY CO ORD THE BOT CAN REACH
     # sx= 4.73219831575
     # sy=4.08815854895
-
-    # Get initial state of turtlebot
-
-    #UNCOMMMENT 
+ 
     pid = PID()
-    state = pid.get_state()
+    state = pid.get_robot_current_state()
     sx = state.pose.position.x
     sy = state.pose.position.y
 
@@ -277,7 +274,7 @@ def main():
     finalpath = changeToFinalCoords(finalpath)
     print(finalpath)
 
-    return (finalpath)
+    return finalpath
 
 path = main()
     

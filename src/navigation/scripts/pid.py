@@ -16,18 +16,18 @@ class PID(object):
         self.output = 0
         self.ang = np.zeros(3)
 
-    def get_state(self):
+    def get_robot_current_state(self):
         rospy.wait_for_service('/gazebo/get_model_state')
         try:
             gms = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
             state = gms(model_name="mobile_base")
             return state
         except rospy.ServiceException as e:
-            print(f"Service call failed: {e}") 
+            print('Service call failed: ' + str(e)) 
 
-    def get_rotation (self, state):           
-        orientation_q = state.pose.orientation 
-        orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
+    def get_rotation(self, state):           
+        orientation = state.pose.orientation 
+        orientation_list = [orientation.x, orientation.y, orientation.z, orientation.w]
         (_, _, yaw) = euler_from_quaternion(orientation_list)
         return yaw
  	
