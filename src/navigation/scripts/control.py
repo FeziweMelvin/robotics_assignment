@@ -45,7 +45,6 @@ class TurtleBot:
                     pow((goal_position.y - state.pose.position.y), 2))
 
     def steering_angle(self, state, goal_position):
-
         return atan2(goal_position.y - state.pose.position.y, goal_position.x - state.pose.position.x)
 
     def angular_vel(self, state, theta, goal_pose, constant=3):
@@ -69,14 +68,8 @@ class TurtleBot:
             
             pid_dist = pid_controller.compute_pid(self.get_euclidean_distance(state, goal_position))
 
-            # Linear velocity in the x-axis.
             vel_msg.linear.x = pid_dist
-            #  self.linear_vel(state, goal_pose, pid_dist)
-        
-            # vel_msg.linear.y = 0
-            # vel_msg.linear.z = 0
 
-            # Angular velocity in the z-axis.
             vel_msg.angular.x = 0
             vel_msg.angular.y = 0
             vel_msg.angular.z =  self.angular_vel(state, theta, goal_position)

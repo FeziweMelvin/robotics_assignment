@@ -234,7 +234,6 @@ def main():
    
     # change to world co ords
     finalpath = changeToFinalCoords(finalpath)
-    print(finalpath)
 
     return finalpath
 
