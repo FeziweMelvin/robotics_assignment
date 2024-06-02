@@ -3,7 +3,7 @@ import rospy
 from gazebo_msgs.srv import GetModelState
 from geometry_msgs.msg import Twist
 from turtlesim.msg import Pose
-from math import pow, atan2, sqrt
+from math import atan2
 from gazebo_msgs.msg import ModelStates
 from tf.transformations import euler_from_quaternion
 from pid import PID
@@ -83,7 +83,7 @@ class TurtleBot:
             # Publishing our vel_msg
             self.velocity_publisher.publish(vel_msg)
 
-            if (self.get_euclidean_distance(state, goal_position) < 0.05):
+            if (pid_controller.get_euclidean_distance(state, goal_position) < 0.05):
                 # the goal has been found
                 break
 
