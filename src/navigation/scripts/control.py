@@ -24,8 +24,6 @@ class TurtleBot:
         self.rate = rospy.Rate(10)
 
     def update_position(self, msg):
-        """Callback function which is called when a new message of type Pose is
-        received by the subscriber."""
         index = 0
         for i in range(len(msg.name)):
             if msg.name[i] == 'mobile_base':
@@ -43,7 +41,6 @@ class TurtleBot:
         self.pose.theta = theta
 
     def get_euclidean_distance(self, state, goal_position):
-        """Euclidean distance between current position and the goal."""
         return sqrt(pow((goal_position.x - state.pose.position.x), 2) +
                     pow((goal_position.y - state.pose.position.y), 2))
 
@@ -71,7 +68,6 @@ class TurtleBot:
             theta = pid_controller.get_rotation(state)
             
             pid_dist = pid_controller.compute_pid(self.get_euclidean_distance(state, goal_position))
-            pid_rot = pid_controller.compute_pid_angular(theta)
 
             # Linear velocity in the x-axis.
             vel_msg.linear.x = pid_dist
@@ -91,59 +87,6 @@ class TurtleBot:
             if (self.get_euclidean_distance(state, goal_position) < 0.05):
                 # the goal has been found
                 break
-        
-    
-    # def angular_controller(self, state, goal_pose):
-
-    #     self.R = self.euclidean_distance(state, goal_pose)
-
-    #     self.xr = self.R*math.cos(self.current_angle)
-    #     self.yr = self.R*math.sin(self.current_angle)
-
-
-    #     self.xim = self.state.pose.position.x + self.xr
-    #     self.yim = self.state.pose.position.x + self.yr
-
-
-    #     self.C = self.euclidean_distance(self.xim, goal_pose)
-    #     # math.sqrt(math.pow(self.xim - self.goal_x , 2) + math.pow(self.yim - self.goal_y , 2))
-
-    #     if self.xim > self.goal_x:
-
-    #         self.alpha = math.acos((2*math.pow(self.R,2) - math.pow(self.C,2))/(2*math.pow(self.R,2)))
-    #     else:
-    #         self.alpha = 2*3.14*math.acos((2*math.pow(self.R,2) - math.pow(self.C,2))/(2*math.pow(self.R,2)))
-        
-    #     print (self.alpha)
-    #     while self.alpha>0.005: 
-    #         self.R = self.euclidean_distance(state, goal_pose)
-    #         # math.sqrt(math.pow(self.current_pose_x - self.goal_x , 2) + math.pow(self.current_pose_y - self.goal_y , 2))
-    #         #print "dentro do while"
-    #         self.xr = self.R*math.cos(self.current_angle)
-    #         self.yr = self.R*math.sin(self.current_angle)
-
-    #         self.xim = self.state.pose.position.x + self.xr
-    #         self.yim = self.state.pose.position.y + self.yr
-
-    #         self.C = self.euclidean_distance(self.xim, goal_pose)
-    #         # math.sqrt(math.pow(self.xim - self.goal_x , 2) + math.pow(self.yim - self.goal_y , 2))
-            
-    #         if self.xim > self.goal_x:
-
-    #             self.alpha = math.acos((2*math.pow(self.R,2) - math.pow(self.C,2))/(2*math.pow(self.R,2)))
-            
-    #         else:
-                
-    #             self.alpha = 2*3.14*math.acos((2*math.pow(self.R,2) - math.pow(self.C,2))/(2*math.pow(self.R,2)))
-
-    #         self.alpha = math.acos((2*math.pow(self.R,2) - math.pow(self.C,2))/(2*math.pow(self.R,2)))
-
-    #         self.PID_angle = self.angle_PID.update(self.alpha)
-
-    #         self.msg.angular.z = self.PID_angle
-
-    #         self.pub.publish(self.msg)
-
 
     def follow_path(self, path):
         goal_pose = Pose()
@@ -156,11 +99,8 @@ class TurtleBot:
 if __name__ == '__main__':
     try:
         path = path[::-1]
-
         x = TurtleBot()
         x.follow_path(path)
 
     except rospy.ROSInterruptException:
         pass
-
-

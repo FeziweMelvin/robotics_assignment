@@ -1,13 +1,10 @@
 #!/usr/bin/env python
 import sys, os
-
 import math
 from scipy.spatial import KDTree
 import imp
-
 import numpy as np
-
-from navigation.scripts.pid import PID
+from pid import PID
 import rospy
 
 
@@ -189,10 +186,6 @@ def changeToFinalCoords(finalpath):
 
 def main():
     print(__file__ + " start.")
-
-    # USED THESE FOR TESTING WITH REAL WORLD CO ORDS
-    # CAN COMMENT THESE OUT AND UNCOMMENT THE INPUT() LINES ABOVE-> REPLACE SX AND SY WITH CURR BOT POS
-    # GX GY CAN BE ANY CO ORD THE BOT CAN REACH
     # sx= 4.73219831575
     # sy=4.08815854895
  

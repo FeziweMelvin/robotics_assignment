@@ -36,19 +36,9 @@ class PID(object):
         
         self.integral_error += self.error
         self.derivative_error = self.error - self.prev_error
-        self.prev_error = self.error
 
         self.output = self.kp * self.error + self.ki * self.integral_error + self.kd * self.derivative_error
-
-        return self.output
-    
-    def compute_pid_angular(self, yaw):
-        self.error =  0-yaw
-
-        self.integral_error += self.error
-        self.derivative_error = self.error - self.prev_error
+        # update the previous error
         self.prev_error = self.error
 
-        self.output = self.kp * self.error + self.ki * self.integral_error + self.kd * self.derivative_error 
-        
         return self.output
