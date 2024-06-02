@@ -1,2 +1,4 @@
 *.built_by
 *.pyc
+/build
+/devel

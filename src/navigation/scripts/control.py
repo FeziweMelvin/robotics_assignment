@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import rospy
+from gazebo_msgs.srv import GetModelState
 from geometry_msgs.msg import Twist
 from turtlesim.msg import Pose
 from math import pow, atan2, sqrt
@@ -40,9 +41,14 @@ class TurtleBot:
         self.pose.y = round(y, 4)
         self.pose.theta = theta
 
-    def get_euclidean_distance(self, state, goal_position):
-        return sqrt(pow((goal_position.x - state.pose.position.x), 2) +
-                    pow((goal_position.y - state.pose.position.y), 2))
+    def get_current_state(self):
+        rospy.wait_for_service('/gazebo/get_model_state')
+        try:
+            gms = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
+            state = gms(model_name="mobile_base")
+            return state
+        except rospy.ServiceException as e:
+            print('Service call failed: ' + str(e)) 
 
     def steering_angle(self, state, goal_position):
         return atan2(goal_position.y - state.pose.position.y, goal_position.x - state.pose.position.x)
@@ -63,7 +69,7 @@ class TurtleBot:
 
         while not rospy.is_shutdown():
             pid_controller = PID()
-            state = pid_controller.get_robot_current_state()
+            state = self.get_current_state()
             theta = pid_controller.get_rotation(state)
             
             pid_dist = pid_controller.compute_pid(self.get_euclidean_distance(state, goal_position))

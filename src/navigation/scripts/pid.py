@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import rospy
 import numpy as np
-from gazebo_msgs.srv import GetModelState
 from tf.transformations import euler_from_quaternion
 
 class PID(object):
@@ -15,16 +14,11 @@ class PID(object):
         self.derivative_error = 0 
         self.output = 0
         self.ang = np.zeros(3)
-
-    def get_robot_current_state(self):
-        rospy.wait_for_service('/gazebo/get_model_state')
-        try:
-            gms = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
-            state = gms(model_name="mobile_base")
-            return state
-        except rospy.ServiceException as e:
-            print('Service call failed: ' + str(e)) 
-
+        
+    def get_euclidean_distance(self, state, goal_position):
+        return sqrt(pow((goal_position.x - state.pose.position.x), 2) +
+                    pow((goal_position.y - state.pose.position.y), 2))
+    
     def get_rotation(self, state):           
         orientation = state.pose.orientation 
         orientation_list = [orientation.x, orientation.y, orientation.z, orientation.w]
