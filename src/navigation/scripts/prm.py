@@ -4,7 +4,7 @@ import math
 from scipy.spatial import KDTree
 import imp
 import numpy as np
-from pid import PID
+from control import TurtleBot
 import rospy
 
 
@@ -188,9 +188,8 @@ def main():
     print(__file__ + " start.")
     # sx= 4.73219831575
     # sy=4.08815854895
- 
-    pid = PID()
-    state = pid.get_robot_current_state()
+
+    state = TurtleBot.get_current_state()
     start_x = state.pose.position.x
     start_y = state.pose.position.y
 
@@ -236,6 +235,4 @@ def main():
     finalpath = changeToFinalCoords(finalpath)
 
     return finalpath
-
-path = main()
     

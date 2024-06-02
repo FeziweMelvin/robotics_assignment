@@ -7,7 +7,7 @@ from math import atan2
 from gazebo_msgs.msg import ModelStates
 from tf.transformations import euler_from_quaternion
 from pid import PID
-from prm import path
+import prm
 
 
 class TurtleBot:
@@ -41,7 +41,8 @@ class TurtleBot:
         self.pose.y = round(y, 4)
         self.pose.theta = theta
 
-    def get_current_state(self):
+    @staticmethod
+    def get_current_state():
         rospy.wait_for_service('/gazebo/get_model_state')
         try:
             gms = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
@@ -72,7 +73,7 @@ class TurtleBot:
             state = self.get_current_state()
             theta = pid_controller.get_rotation(state)
             
-            pid_dist = pid_controller.compute_pid(self.get_euclidean_distance(state, goal_position))
+            pid_dist = pid_controller.compute_pid(pid_controller.get_euclidean_distance(state, goal_position))
 
             vel_msg.linear.x = pid_dist
 
@@ -97,6 +98,7 @@ class TurtleBot:
 
 if __name__ == '__main__':
     try:
+        path = prm.main()
         path = path[::-1]
         x = TurtleBot()
         x.follow_path(path)
