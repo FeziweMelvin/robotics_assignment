@@ -97,7 +97,7 @@ class TurtleBot:
                 # the goal has been found
                 break
 
-    def follow_path(self, path):
+    def follow_path(self, path) -> None:
         goal_pose = Pose()
         for step in path:
             goal_pose.x = step[0]

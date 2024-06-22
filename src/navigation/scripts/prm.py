@@ -58,7 +58,7 @@ def is_collision(sx, sy, gx, gy, rr, NN) -> bool:
 
 def generate_map(random_x_values, random_y_values, rr, obstacles):
     map = []
-    n = len(random_x_values)
+    n: int = len(random_x_values)
     random_tree = KDTree(np.vstack((random_x_values, random_y_values)).T)
 
     for _, rx, ry in zip(range(n), random_x_values, random_y_values):
