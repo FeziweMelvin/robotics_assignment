@@ -1,8 +1,8 @@
 ### Run the Map Server
-rosrun map_server map_server ~/robot_assignment_ws/src/motion/maps/finalMap.yaml &
+rosrun map_server map_server ~/robot_assignment_ws/src/navigation/maps/map.yaml 
 
 ### Run the AMCL Node
-roslaunch turtlebot_navigation amcl_demo.launch map_file:=~/robot_assignment_ws/src/navigation/maps/map.yaml &
+roslaunch turtlebot_navigation amcl_demo.launch map_file:=~/robot_assignment_ws/src/navigation/maps/map.yaml 
 
 ### Run the Navigation Node
 rosrun navigation navigator.py
