@@ -14,6 +14,7 @@ rosrun navigation navigator.py
 # Provide Goal Coordinates:
 # Enter the x and y coordinates when prompted by the navigation node.
 
-# If you forgot to source the setup.bash script or if you're encountering the error after sourcing, you can manually export the ROS_PACKAGE_PATH in your current terminal session:
+
+If you forgot to source the setup.bash script or if you're encountering the error after sourcing, you can manually export the ROS_PACKAGE_PATH in your current terminal session:
 
 export ROS_PACKAGE_PATH=~/robot_assignment_ws/src:$ROS_PACKAGE_PATH
