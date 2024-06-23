@@ -2,6 +2,7 @@
 import math
 import os
 import sys
+
 import numpy as np
 from control import TurtleBot
 from scipy.spatial import KDTree
@@ -24,15 +25,17 @@ def prm(sx, sy, gx, gy, obstacles_x_values, obstacles_y_values, robot_radius):
 
     # Generate random points within the map, avoiding obstacles
     points_x_values, points_y_values = generate_random_points(
-        sx, sy, gx, gy, robot_radius, obstacles_x_values, obstacles_y_values, obstables)
-    
+        sx, sy, gx, gy, robot_radius, obstacles_x_values, obstacles_y_values, obstables
+    )
+
     # Create a roadmap graph connecting points based on collision-free paths
     road_map = generate_map(points_x_values, points_y_values, robot_radius, obstables)
 
     # Use Dijkstra's algorithm to find the shortest path from start to goal
     px, py = dijkstra_planning(
-        sx, sy, gx, gy, road_map, points_x_values, points_y_values)
-    
+        sx, sy, gx, gy, road_map, points_x_values, points_y_values
+    )
+
     # Return the x and y coordinates of the path
     return px, py
 
@@ -40,11 +43,11 @@ def prm(sx, sy, gx, gy, obstacles_x_values, obstacles_y_values, robot_radius):
 def is_collision(sx, sy, gx, gy, rr, NN) -> bool:
     # Calculate the Euclidean distance between the start (sx, sy) and goal (gx, gy) points
     d: float = math.hypot(gx - sx, gy - sy)
-    
+
     # If the distance is greater than or equal to 30 m, assume a collision (for performance or safety reasons)
     if d >= 30:
         return True
-        
+
     # Calculate the number of intermediate points to check along the line from start to goal
     n = int(d / rr)
     # Iterate over the intermediate points
@@ -136,7 +139,7 @@ def dijkstra_planning(sx, sy, gx, gy, road_map, randomx, randomy):
             n_id = road_map[c_id][i]
             dx = randomx[n_id] - current.x
             dy = randomy[n_id] - current.y
-            
+
             # Calculate the distance to the neighbor
             d = math.hypot(dx, dy)
             node = Node(randomx[n_id], randomy[n_id], current.cost + d, c_id)
@@ -144,7 +147,7 @@ def dijkstra_planning(sx, sy, gx, gy, road_map, randomx, randomy):
             # Skip the neighbor if it's already in the closed set
             if n_id in closed_set:
                 continue
-                
+
             # If the neighbor is in the open set, check if this path is cheaper
             if n_id in open_set:
                 if open_set[n_id].cost > node.cost:
@@ -152,7 +155,7 @@ def dijkstra_planning(sx, sy, gx, gy, road_map, randomx, randomy):
                     open_set[n_id].parent_index = c_id
             else:
                 open_set[n_id] = node
-                
+
     # If no path was found, return empty lists
     if path_found is False:
         return [], []
@@ -168,7 +171,8 @@ def dijkstra_planning(sx, sy, gx, gy, road_map, randomx, randomy):
 
     return rx, ry
 
-#Function to Sample random points in the free space of the occupancy grid
+
+# Function to Sample random points in the free space of the occupancy grid
 def generate_random_points(sx, sy, gx, gy, rr, ox, oy, NN):
     random_x_values = []
     random_y_values = []
@@ -178,12 +182,12 @@ def generate_random_points(sx, sy, gx, gy, rr, ox, oy, NN):
     min_x = min(ox)
     min_y = min(oy)
 
-    #Generate random values within the borders of the environment
+    # Generate random values within the borders of the environment
     while len(random_x_values) <= 500:
         x = (np.random.random() * (max_x - min_x)) + min_x
         y = (np.random.random() * (max_y - min_y)) + min_y
-       
-        #query phase for roadmap to find paths
+
+        # query phase for roadmap to find paths
         dist, _ = NN.query([x, y])
 
         if dist >= rr:
@@ -201,15 +205,16 @@ def generate_random_points(sx, sy, gx, gy, rr, ox, oy, NN):
 
 
 def changeToWorldCoords(r, c):
-    #Conversion using resolution and origin of the the world coordinates
-    x = (r*0.05)-20.0759
-    y = (c*0.05)-20
-    return x,y
+    # Conversion using resolution and origin of the the world coordinates
+    x = (r * 0.05) - 20.0759
+    y = (c * 0.05) - 20
+    return x, y
+
 
 def changeToPixelCoords(x, y):
-    #Conversion using resolution and origin of the the world coordinates
-    r =round((x+20.0759) / 0.05)
-    c =round((20+y)) / 0.05)
+    # Conversion using resolution and origin of the the world coordinates
+    r = round((x + 20.0759) / 0.05)
+    c = round((20 + y) / 0.05)
     return r, c
 
 
@@ -219,16 +224,14 @@ def changeToFinalCoords(finalpath):
         finalpath[i][0], finalpath[i][1] = changeToWorldCoords(
             round(finalpath[i][0]), round(finalpath[i][1])
         )
-    #return final path
+    # return final path
     return finalpath
 
 
 def main():
     print(__file__ + " start.")
-    # sx= 4.73219831575
-    # sy=4.08815854895
 
-    #Get the current position of the robot
+    # Get the current position of the robot
     state = TurtleBot.get_current_state()
     start_x = state.pose.position.x
     start_y = state.pose.position.y
@@ -237,9 +240,6 @@ def main():
     goal_x = float(input("Input the goal x value:"))
     goal_y = float(input("Input the goal y value:"))
 
-    # gx=3.78583484097
-    # gy=6.65431327362
-
     # have to change to pixel co ords
     start_x, start_y = changeToPixelCoords(start_x, start_y)
     goal_x, goal_y = changeToPixelCoords(goal_x, goal_y)
@@ -247,21 +247,21 @@ def main():
     print("Start co-ords in pixel co-ords: ", start_x, start_y)
     print("Goal co-ords in pixel co-ords: ", goal_x, goal_y)
 
-    #Assume the robots radius is 5m
+    # Assume the robots radius is 5m
     robot_radius = 5.0
 
-    #stores the Occupancy map data into an array
+    # stores the Occupancy map data into an array
     imgArr = []
 
-    #copy the occupancy map data into the ImgArr
-    with open(os.path.join(sys.path[0], "OccupancyMap.txt") as textFile:
+    # copy the occupancy map data into the ImgArr
+    with open(os.path.join(sys.path[0], "OccupancyMap.txt")) as textFile:
         for line in textFile:
             lines = line.split(",")
             imgArr.append(lines)
 
     imgArr = np.array(imgArr).astype(int)
 
-    #Arrays to store coordinates of obstacles
+    # Arrays to store coordinates of obstacles
     obstacles_x_values = []
     obstacles_y_values = []
     for i in range(imgArr.shape[0]):
