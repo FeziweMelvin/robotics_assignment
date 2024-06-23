@@ -5,7 +5,7 @@ rosrun map_server map_server ~/robot_assignment_ws/src/navigation/maps/map.yaml
 roslaunch turtlebot_navigation amcl_demo.launch map_file:=~/robot_assignment_ws/src/navigation/maps/map.yaml 
 
 ### Run the Navigation Node
-rosrun navigation navigator.py
+rosrun navigation navigate.py
 
 ### Provide Goal Coordinates:
 Enter the x and y coordinates when prompted by the navigation node.
