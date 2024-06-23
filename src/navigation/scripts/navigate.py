@@ -17,14 +17,10 @@ class TurtleBot:
         rospy.init_node("turtlebot_controller", anonymous=True)
 
         # Create a publisher for the robot's velocity commands
-        self.velocity_publisher = rospy.Publisher(
-            "/cmd_vel_mux/input/navi", Twist, queue_size=10
-        )
+        self.velocity_publisher = rospy.Publisher("/cmd_vel_mux/input/navi", Twist, queue_size=10)
 
         # Create a subscriber to update the robot's position from the Gazebo simulator
-        self.pose_subscriber = rospy.Subscriber(
-            "/gazebo/model_states", ModelStates, self.update_position
-        )
+        self.pose_subscriber = rospy.Subscriber("/gazebo/model_states", ModelStates, self.update_position)
 
         # Initialize the robot's pose (position and orientation)
         self.pose = Pose()
