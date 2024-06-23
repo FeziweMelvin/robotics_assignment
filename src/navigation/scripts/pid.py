@@ -16,6 +16,7 @@ class PID(object):
         self.derivative_error = 0  # Rate of change of error
         self.output = 0  # PID output
         self.ang = np.zeros(3)  # Placeholder for angular values
+
     def get_euclidean_distance(self, state, goal_position) -> float:
         """
         Calculate the Euclidean distance between the robot's current position and the goal position.
@@ -33,7 +34,7 @@ class PID(object):
         )
 
     def get_rotation(self, state):
-                """
+        """
         Extract the yaw (rotation around the z-axis) from the robot's orientation quaternion.
 
         Args:
@@ -48,7 +49,7 @@ class PID(object):
         return yaw
 
     def compute_pid(self, error):
-         """
+        """
         Compute the PID output based on the given error (difference between desired and current state).
 
         Args:
@@ -60,7 +61,7 @@ class PID(object):
         self.error = error
         # Integral term
         self.integral_error += self.error
-         # Derivative term
+        # Derivative term
         self.derivative_error = self.error - self.prev_error
         # PID output calculation
         self.output = (

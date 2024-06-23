@@ -13,7 +13,7 @@ from turtlesim.msg import Pose
 
 class TurtleBot:
     def __init__(self) -> None:
-         # Initialize the ROS node for the TurtleBot controller
+        # Initialize the ROS node for the TurtleBot controller
         rospy.init_node("turtlebot_controller", anonymous=True)
 
         # Create a publisher for the robot's velocity commands
@@ -39,7 +39,7 @@ class TurtleBot:
             if msg.name[i] == "mobile_base":
                 index = i
                 break
-                
+
         # Extract the x and y positions of the robot from the message
         x = msg.pose[index].position.x
         y = msg.pose[index].position.y
@@ -58,13 +58,13 @@ class TurtleBot:
         # Wait for the service "/gazebo/get_model_state" to be available
         rospy.wait_for_service("/gazebo/get_model_state")
         try:
-             # Create a service proxy to call the service
+            # Create a service proxy to call the service
             gms = rospy.ServiceProxy("/gazebo/get_model_state", GetModelState)
             # Call the service to get the state of the "mobile_base" model
             state = gms(model_name="mobile_base")
             return state
         except rospy.ServiceException as e:
-             # Print an error message if the service call fails
+            # Print an error message if the service call fails
             print("Service call failed: " + str(e))
 
     def steering_angle(self, state, goal_position) -> float:
@@ -75,7 +75,7 @@ class TurtleBot:
         # Calculate and return the steering angle using the arctangent of delta_y / delta_x
         # atan2 handles the quadrant-specific calculation to return the correct angle
         return atan2(delta_y, delta_x)
-    
+
     def angular_vel(self, state, theta, goal_pose, constant=3):
         # Calculate the steering angle towards the goal position
         ang_vel = constant * (self.steering_angle(state, goal_pose) - theta)
