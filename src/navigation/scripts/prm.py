@@ -4,7 +4,7 @@ import os
 import sys
 
 import numpy as np
-from control import TurtleBot
+from navigation.scripts.navigate import TurtleBot
 from scipy.spatial import KDTree
 
 

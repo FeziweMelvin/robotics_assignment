@@ -37,7 +37,7 @@ class TurtleBot:
         # Iterate through the list of model names in the received message
         for i in range(len(msg.name)):
             if msg.name[i] == "mobile_base":
-                index = i
+                index: int = i
                 break
 
         # Extract the x and y positions of the robot from the message
