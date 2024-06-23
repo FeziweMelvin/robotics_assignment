@@ -2,7 +2,7 @@
 ## Group members
 - Karabo Maila (2332030@students.wits.ac.za)
 - Puseletso Nakana (2341162@students.wits.ac.za)
-- Feziwe Shongwe (@students.wits.ac.za)
+- Feziwe Shongwe (2135313@students.wits.ac.za)
 - Bonisiswe Mdletshe (1920451@students.wits.ac.za)
 
 ## Description
