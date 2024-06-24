@@ -9,13 +9,13 @@ from scipy.spatial import KDTree
 
 
 class Node:
-    def __init__(self, x, y, cost, parent_index) -> None:
+    def __init__(self, x, y, cost, parent_index):
         self.x = x
         self.y = y
         self.cost = cost
         self.parent_index = parent_index
 
-    def __str__(self) -> str:
+    def __str__(self):
         return str(self.x) + "," + str(self.y) + "," + str(self.cost)
 
 
@@ -40,9 +40,9 @@ def prm(sx, sy, gx, gy, obstacles_x_values, obstacles_y_values, robot_radius):
     return px, py
 
 
-def is_collision(sx, sy, gx, gy, rr, NN) -> bool:
+def is_collision(sx, sy, gx, gy, rr, NN):
     # Calculate the Euclidean distance between the start (sx, sy) and goal (gx, gy) points
-    d: float = math.hypot(gx - sx, gy - sy)
+    d = math.hypot(gx - sx, gy - sy)
 
     # If the distance is greater than or equal to 30 m, assume a collision (for performance or safety reasons)
     if d >= 30:
@@ -74,7 +74,7 @@ def generate_map(random_x_values, random_y_values, rr, obstacles):
     # Initialize the roadmap as an empty list
     map = []
     # Number of random points to sample
-    n: int = len(random_x_values)
+    n = len(random_x_values)
     # Create a KDTree for efficient nearest neighbor search
     random_tree = KDTree(np.vstack((random_x_values, random_y_values)).T)
 
