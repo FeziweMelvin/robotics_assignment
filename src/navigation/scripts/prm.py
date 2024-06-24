@@ -250,7 +250,6 @@ def main():
     goal_x = float(input("Input the goal x value:"))
     goal_y = float(input("Input the goal y value:"))
 
-    # have to change to pixel co ords
     start_x, start_y = changeToPixelCoords(start_x, start_y)
     goal_x, goal_y = changeToPixelCoords(goal_x, goal_y)
 
