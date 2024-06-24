@@ -1,5 +1,5 @@
 # generated from catkin/cmake/template/order_packages.context.py.in
-source_root_dir = "/home/karabo/ros_home/robot_assignment_ws/src"
+source_root_dir = "/home/bonisiwe/ros_home/robotics_assignment/src"
 whitelisted_packages = "".split(';') if "" != "" else []
 blacklisted_packages = "".split(';') if "" != "" else []
-underlay_workspaces = "/opt/ros/kinetic".split(';') if "/opt/ros/kinetic" != "" else []
+underlay_workspaces = "/home/bonisiwe/ros_home/robotics_assignment-master/devel;/opt/ros/kinetic".split(';') if "/home/bonisiwe/ros_home/robotics_assignment-master/devel;/opt/ros/kinetic" != "" else []

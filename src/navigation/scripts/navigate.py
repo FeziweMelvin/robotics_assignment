@@ -1,18 +1,18 @@
 #!/usr/bin/env python
-from math import atan2
 
 import prm
 import rospy
+from pid import PID
+from math import atan2
 from gazebo_msgs.msg import ModelStates
 from gazebo_msgs.srv import GetModelState
 from geometry_msgs.msg import Twist
-from pid import PID
 from tf.transformations import euler_from_quaternion
 from turtlesim.msg import Pose
 
 
 class TurtleBot:
-    def __init__(self) -> None:
+    def __init__(self):
         # Initialize the ROS node for the TurtleBot controller
         rospy.init_node("turtlebot_controller", anonymous=True)
 
@@ -28,7 +28,7 @@ class TurtleBot:
         # Set the rate at which the loop will run (10 Hz)
         self.rate = rospy.Rate(10)
 
-    def update_position(self, msg) -> None:
+    def update_position(self, msg):
         index = 0
         # Iterate through the list of model names in the received message
         for i in range(len(msg.name)):
@@ -48,6 +48,28 @@ class TurtleBot:
         self.pose.x = round(x, 4)
         self.pose.y = round(y, 4)
         self.pose.theta = theta
+
+    # def update_position(self, msg) -> None:
+    #     # Find the index of "mobile_base" in the list of model names
+    #     try:
+    #         index = msg.name.index("mobile_base")
+    #     except ValueError:
+    #         rospy.logwarn("Cannot find 'mobile_base' in model states message.")
+    #         return
+
+    #     # Extract position and orientation data
+    #     x = msg.pose[index].position.x
+    #     y = msg.pose[index].position.y
+    #     rot_q = msg.pose[index].orientation
+
+    #     # Convert quaternion to Euler angles (roll, pitch, yaw)
+    #     _, _, theta = euler_from_quaternion([rot_q.x, rot_q.y, rot_q.z, rot_q.w])
+
+    #     # Update the robot's pose attributes
+    #     self.pose.x = round(x, 4)
+    #     self.pose.y = round(y, 4)
+    #     self.pose.theta = theta
+
 
     @staticmethod
     def get_current_state():
@@ -86,6 +108,7 @@ class TurtleBot:
                 return -max_vel
             else:
                 return max_vel
+                
 
     def steer(self, goal_position) -> None:
         # Initialize a Twist message for velocity control
