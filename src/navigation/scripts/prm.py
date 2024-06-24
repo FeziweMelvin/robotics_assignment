@@ -204,28 +204,15 @@ def generate_random_points(sx, sy, gx, gy, rr, ox, oy, NN):
     return random_x_values, random_y_values
 
 
-def changeToWorldCoords(r,c):
-    y=12.84753-(c*0.05188378405)
-    x=6.72835-(r*0.05324720745)
+def changeToWorldCoords(r, c):
+    y = 12.84753-(c * 0.05188378405)
+    x = 6.72835-(r * 0.05324720745)
     return x,y
 
-def changeToPixelCoords(x,y):
-    c=round((12.84753-y)/0.05188378405)
-    r=round((6.72835-x)/0.05324720745)
+def changeToPixelCoords(x, y):
+    c = round((12.84753 - y) / 0.05188378405)
+    r= round((6.72835 - x) / 0.05324720745)
     return r,c
-
-def changeToWorldCoords2(r, c):
-    # Conversion using resolution and origin of the the world coordinates
-    x = (r * 0.05) - 20.0759
-    y = (c * 0.05) - 20
-    return x, y
-
-
-def changeToPixelCoords2(x, y):
-    # Conversion using resolution and origin of the the world coordinates
-    r = round((x + 20.0759) / 0.05)
-    c = round((20 + y) / 0.05)
-    return r, c
 
 
 def changeToFinalCoords(finalpath):
