@@ -33,7 +33,7 @@ class TurtleBot:
         # Iterate through the list of model names in the received message
         for i in range(len(msg.name)):
             if msg.name[i] == "mobile_base":
-                index: int = i
+                index = i
                 break
 
         # Extract the x and y positions of the robot from the message
@@ -85,7 +85,7 @@ class TurtleBot:
             # Print an error message if the service call fails
             print("Service call failed: " + str(e))
 
-    def steering_angle(self, state, goal_position) -> float:
+    def steering_angle(self, state, goal_position):
         # Calculate the difference in the y-coordinates between the goal position and the current state
         delta_y = goal_position.y - state.pose.position.y
         # Calculate the difference in the x-coordinates between the goal position and the current state
@@ -110,7 +110,7 @@ class TurtleBot:
                 return max_vel
                 
 
-    def steer(self, goal_position) -> None:
+    def steer(self, goal_position):
         # Initialize a Twist message for velocity control
         vel_msg = Twist()
 
@@ -141,7 +141,7 @@ class TurtleBot:
                 # the goal has been found
                 break
 
-    def follow_path(self, path) -> None:
+    def follow_path(self, path):
         goal_pose = Pose()
         # Iterate through each step in the given path
         for step in path:
