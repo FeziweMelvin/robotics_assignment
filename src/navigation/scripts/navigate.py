@@ -12,7 +12,7 @@ from turtlesim.msg import Pose
 
 
 class TurtleBot:
-    def __init__(self) -> None:
+    def __init__(self):
         # Initialize the ROS node for the TurtleBot controller
         rospy.init_node("turtlebot_controller", anonymous=True)
 
@@ -28,12 +28,12 @@ class TurtleBot:
         # Set the rate at which the loop will run (10 Hz)
         self.rate = rospy.Rate(10)
 
-    def update_position(self, msg) -> None:
+    def update_position(self, msg):
         index = 0
         # Iterate through the list of model names in the received message
         for i in range(len(msg.name)):
             if msg.name[i] == "mobile_base":
-                index: int = i
+                index = i
                 break
 
         # Extract the x and y positions of the robot from the message
@@ -63,7 +63,7 @@ class TurtleBot:
             # Print an error message if the service call fails
             print("Service call failed: " + str(e))
 
-    def steering_angle(self, state, goal_position) -> float:
+    def steering_angle(self, state, goal_position):
         # Calculate the difference in the y-coordinates between the goal position and the current state
         delta_y = goal_position.y - state.pose.position.y
         # Calculate the difference in the x-coordinates between the goal position and the current state
@@ -87,7 +87,7 @@ class TurtleBot:
             else:
                 return max_vel
 
-    def steer(self, goal_position) -> None:
+    def steer(self, goal_position):
         # Initialize a Twist message for velocity control
         vel_msg = Twist()
 
@@ -118,7 +118,7 @@ class TurtleBot:
                 # the goal has been found
                 break
 
-    def follow_path(self, path) -> None:
+    def follow_path(self, path):
         goal_pose = Pose()
         # Iterate through each step in the given path
         for step in path:
