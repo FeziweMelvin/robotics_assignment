@@ -125,7 +125,7 @@ def dijkstra_planning(sx, sy, gx, gy, road_map, randomx, randomy):
 
         # If the current node is the goal, path is found
         if c_id == (len(road_map) - 1):
-            print("Goal is found!")
+            print("Goal is found.")
             goal_node.parent_index = current.parent_index
             goal_node.cost = current.cost
             break
@@ -205,13 +205,13 @@ def generate_random_points(sx, sy, gx, gy, rr, ox, oy, NN):
 
 
 def changeToWorldCoords(r, c):
-    y = 12.84753 -(c * 0.05188378405)
-    x = 6.72835 - (r * 0.05324720745)
+    y = 12.848 -(c * 0.052)
+    x = 6.728 - (r * 0.053)
     return x,y
 
 def changeToPixelCoords(x, y):
-    c = round((12.84753 - y) / 0.05188378405)
-    r= round((6.72835 - x) / 0.05324720745)
+    c = round((12.848 - y) / 0.052)
+    r= round((6.728 - x) / 0.053)
     return r,c
 
 
