@@ -205,8 +205,8 @@ def generate_random_points(sx, sy, gx, gy, rr, ox, oy, NN):
 
 
 def changeToWorldCoords(r, c):
-    y = 12.84753-(c * 0.05188378405)
-    x = 6.72835-(r * 0.05324720745)
+    y = 12.84753 -(c * 0.05188378405)
+    x = 6.72835 - (r * 0.05324720745)
     return x,y
 
 def changeToPixelCoords(x, y):
