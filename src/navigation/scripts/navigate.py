@@ -28,47 +28,28 @@ class TurtleBot:
         # Set the rate at which the loop will run (10 Hz)
         self.rate = rospy.Rate(10)
 
-    def update_position(self, msg):
-        index = 0
-        # Iterate through the list of model names in the received message
-        for i in range(len(msg.name)):
-            if msg.name[i] == "mobile_base":
-                index = i
-                break
 
-        # Extract the x and y positions of the robot from the message
+
+    def update_position(self, msg):
+        # Find the index of "mobile_base" in the list of model names
+        try:
+            index = msg.name.index("mobile_base")
+        except ValueError:
+            rospy.logwarn("Cannot find 'mobile_base' in model states message.")
+            return
+
+        # Extract position and orientation data
         x = msg.pose[index].position.x
         y = msg.pose[index].position.y
-        # Extract the orientation quaternion of the robot from the message
         rot_q = msg.pose[index].orientation
 
+        # Convert quaternion to Euler angles (roll, pitch, yaw)
         _, _, theta = euler_from_quaternion([rot_q.x, rot_q.y, rot_q.z, rot_q.w])
 
-        # Update the robot's pose with the new position and orientation
+        # Update the robot's pose attributes
         self.pose.x = round(x, 4)
         self.pose.y = round(y, 4)
         self.pose.theta = theta
-
-    # def update_position(self, msg) -> None:
-    #     # Find the index of "mobile_base" in the list of model names
-    #     try:
-    #         index = msg.name.index("mobile_base")
-    #     except ValueError:
-    #         rospy.logwarn("Cannot find 'mobile_base' in model states message.")
-    #         return
-
-    #     # Extract position and orientation data
-    #     x = msg.pose[index].position.x
-    #     y = msg.pose[index].position.y
-    #     rot_q = msg.pose[index].orientation
-
-    #     # Convert quaternion to Euler angles (roll, pitch, yaw)
-    #     _, _, theta = euler_from_quaternion([rot_q.x, rot_q.y, rot_q.z, rot_q.w])
-
-    #     # Update the robot's pose attributes
-    #     self.pose.x = round(x, 4)
-    #     self.pose.y = round(y, 4)
-    #     self.pose.theta = theta
 
 
     @staticmethod
