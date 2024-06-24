@@ -110,7 +110,7 @@ def dijkstra_planning(sx, sy, gx, gy, road_map, randomx, randomy):
     # Dictionaries to keep track of nodes that are open (to be explored) and closed (already explored)
     open_set, closed_set = dict(), dict()
     open_set[len(road_map) - 2] = start_node
-
+ 
     path_found = True
     while True:
         # If there are no more nodes to explore, the path cannot be found
@@ -229,7 +229,7 @@ def changeToPixelCoords2(x, y):
 
 
 def changeToFinalCoords(finalpath):
-    # change pixel co ords of final path to world co ords
+    # change pixel final path to world
     for i in range(finalpath.shape[0]):
         finalpath[i][0], finalpath[i][1] = changeToWorldCoords(
             round(finalpath[i][0]), round(finalpath[i][1])
