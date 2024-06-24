@@ -6,7 +6,7 @@ from tf.transformations import euler_from_quaternion
 
 
 class PID(object):
-    def __init__(self) -> None:
+    def __init__(self):
         self.kp = 0.5  # Proportional gain
         self.ki = 0.001  # Integral gain
         self.kd = 0.05  # Derivative gain
@@ -17,7 +17,7 @@ class PID(object):
         self.output = 0  # PID output
         self.ang = np.zeros(3)  # Placeholder for angular values
 
-    def get_euclidean_distance(self, state, goal_position) -> float:
+    def get_euclidean_distance(self, state, goal_position):
         """
         Calculate the Euclidean distance between the robot's current position and the goal position.
 
