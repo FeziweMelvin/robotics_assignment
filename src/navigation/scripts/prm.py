@@ -21,15 +21,15 @@ class Node:
 
 def prm(sx, sy, gx, gy, obstacles_x_values, obstacles_y_values, robot_radius):
     # Create a KDTree for efficient nearest neighbor search with obstacle coordinates
-    obstables = KDTree(np.vstack((obstacles_x_values, obstacles_y_values)).T)
+    obstacles = KDTree(np.vstack((obstacles_x_values, obstacles_y_values)).T)
 
     # Generate random points within the map, avoiding obstacles
     points_x_values, points_y_values = generate_random_points(
-        sx, sy, gx, gy, robot_radius, obstacles_x_values, obstacles_y_values, obstables
+        sx, sy, gx, gy, robot_radius, obstacles_x_values, obstacles_y_values, obstacles
     )
 
     # Create a roadmap graph connecting points based on collision-free paths
-    road_map = generate_map(points_x_values, points_y_values, robot_radius, obstables)
+    road_map = generate_map(points_x_values, points_y_values, robot_radius, obstacles)
 
     # Use Dijkstra's algorithm to find the shortest path from start to goal
     px, py = dijkstra_planning(
@@ -204,14 +204,24 @@ def generate_random_points(sx, sy, gx, gy, rr, ox, oy, NN):
     return random_x_values, random_y_values
 
 
-def changeToWorldCoords(r, c):
+def changeToWorldCoords(r,c):
+    y=12.84753-(c*0.05188378405)
+    x=6.72835-(r*0.05324720745)
+    return x,y
+
+def changeToPixelCoords(x,y):
+    c=round((12.84753-y)/0.05188378405)
+    r=round((6.72835-x)/0.05324720745)
+    return r,c
+
+def changeToWorldCoords2(r, c):
     # Conversion using resolution and origin of the the world coordinates
     x = (r * 0.05) - 20.0759
     y = (c * 0.05) - 20
     return x, y
 
 
-def changeToPixelCoords(x, y):
+def changeToPixelCoords2(x, y):
     # Conversion using resolution and origin of the the world coordinates
     r = round((x + 20.0759) / 0.05)
     c = round((20 + y) / 0.05)
@@ -244,8 +254,8 @@ def main():
     start_x, start_y = changeToPixelCoords(start_x, start_y)
     goal_x, goal_y = changeToPixelCoords(goal_x, goal_y)
 
-    print("Start co-ords in pixel co-ords: ", start_x, start_y)
-    print("Goal co-ords in pixel co-ords: ", goal_x, goal_y)
+    print("Start position: ", start_x, start_y)
+    print("Goal position: ", goal_x, goal_y)
 
     # Assume the robots radius is 5m
     robot_radius = 5.0
