@@ -28,8 +28,6 @@ class TurtleBot:
         # Set the rate at which the loop will run (10 Hz)
         self.rate = rospy.Rate(10)
 
-
-
     def update_position(self, msg):
         # Find the index of "mobile_base" in the list of model names
         try:
